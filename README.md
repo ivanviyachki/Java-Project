@@ -1,2 +1,2 @@
 # Java-Project
-This is repository for Java project
+Java Spring project

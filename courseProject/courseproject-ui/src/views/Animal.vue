@@ -29,7 +29,7 @@
   </b-table>
 
   <b-pagination
-    @input="getAllAnimals"
+    @input="searchAnimals"
     v-model="currentPage"
     :total-rows="rows"
     :per-page="perPage"
@@ -101,7 +101,7 @@ export default {
         response => {
           console.log(response)
           this.message = response.data
-          this.searchAnimals()
+          this.getAllAnimals()
         },
         error => {
           this.content =

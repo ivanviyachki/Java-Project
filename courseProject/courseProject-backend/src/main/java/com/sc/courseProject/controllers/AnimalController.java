@@ -75,13 +75,22 @@ public class AnimalController {
         return ResponseEntity.ok("Successfully deleted");
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<?> getAnimal(@RequestParam(required = false) String name){
+    @GetMapping("/searchByName")
+    public ResponseEntity<?> getAnimalByName(@RequestParam(required = false) String name){
         if(name == null || name.isBlank()){
             return ResponseEntity.ok().body("No name entered");
         }
         Optional<Animal> result = animalRepository.findAnimalByName(name.toLowerCase());
         return result.isPresent()? ResponseEntity.ok(result.get()) : ResponseEntity.ok().body("No animal with that name");
+    }
+
+    @GetMapping("/searchBySerialNumber")
+    public ResponseEntity<?> getAnimalBySerialNumber(@RequestParam(required = false) Integer serial_n){
+        if(serial_n == null){
+            return ResponseEntity.ok().body("No id entered");
+        }
+        Optional<Animal> result = animalRepository.findAnimalById(serial_n);
+        return result.isPresent()? ResponseEntity.ok(result.get()) : ResponseEntity.ok().body("No animal with that serial number");
     }
 
     @GetMapping("/search/page")
@@ -90,6 +99,8 @@ public class AnimalController {
                                @RequestParam(required = false) String name,
                                @RequestParam(required = false) String type,
                                @RequestParam(required = false) Integer serial_n){
+
+
 
         Pageable pageable = (Pageable) PageRequest.of( currentPage - 1, perPage);
         //Page<Animal> animals = animalRepository.findPageAnimals(pageable,

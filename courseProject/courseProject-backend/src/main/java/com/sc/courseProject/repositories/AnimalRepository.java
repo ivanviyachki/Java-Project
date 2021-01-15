@@ -9,4 +9,7 @@ import java.util.Optional;
 public interface AnimalRepository extends JpaRepository<Animal, Long> {
     @Query("SELECT a FROM Animal a WHERE lower(a.name) = :name")
     Optional<Animal> findAnimalByName(String name);
+
+    @Query("SELECT a FROM Animal a WHERE a.serial_n = :serial_n")
+    Optional<Animal> findAnimalById(Integer serial_n);
 }

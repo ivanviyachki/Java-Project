@@ -93,6 +93,15 @@ public class AnimalController {
         return result.isPresent()? ResponseEntity.ok(result.get()) : ResponseEntity.ok().body("No animal with that serial number");
     }
 
+    @GetMapping("/searchByType")
+    public ResponseEntity<?> getAnimalByType(@RequestParam(required = false) String type){
+        if(type == null || type.isBlank()){
+            return ResponseEntity.ok().body("No type entered");
+        }
+        Optional<Animal> result = animalRepository.findAnimalByType(type);
+        return result.isPresent()? ResponseEntity.ok(result.get()) : ResponseEntity.ok().body("No animal of this type");
+    }
+
     @GetMapping("/search/page")
     public void paginateAnimal(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
                                @RequestParam(value = "perPage", defaultValue = "5") int perPage,
@@ -102,7 +111,7 @@ public class AnimalController {
 
 
 
-        Pageable pageable = (Pageable) PageRequest.of( currentPage - 1, perPage);
+      // Pageable pageable = (Pageable) PageRequest.of( currentPage - 1, perPage);
         //Page<Animal> animals = animalRepository.findPageAnimals(pageable,
         //        name.toLowerCase(),
         //        type.toLowerCase(),

@@ -12,4 +12,7 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
 
     @Query("SELECT a FROM Animal a WHERE a.serial_n = :serial_n")
     Optional<Animal> findAnimalById(Integer serial_n);
+
+    @Query("SELECT a FROM Animal a WHERE a.type = :type")
+    Optional<Animal> findAnimalByType(String type);
 }

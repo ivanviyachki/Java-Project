@@ -6,7 +6,7 @@
   <input type="text" v-model="animal.type"><br>
   <label>Serial Number</label><br>
   <input type="text" v-model="animal.serial_n"><br>
-  <button v-on:click="saveAnimal">Save</button>
+  <b-button v-on:click="saveAnimal" variant="outline-warning" style="margin-top: 20px">Save</b-button>
 </div>
 </template>
 

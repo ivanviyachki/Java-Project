@@ -1,11 +1,16 @@
 <template>
 <div class="animal">
   <h3>{{message}}</h3>
-  <b-button v-on:click="searchAnimals" variant="outline-success">Търсене</b-button>
-  <router-link :to="{ name: 'AnimalTab' }">Въведи</router-link>
+  <div style="padding-bottom: 20px; float: right; margin-right: 20px">
+  <b-button v-on:click="searchAnimals" variant="outline-success">Search</b-button>
+  <span style="margin-left: 10px"></span>
+  <b-button @click="$router.push('AnimalTab')" variant="outline-success">Add new</b-button>
+  </div>
   <b-table
     id="animalTable"
     striped
+    head-variant=dark
+    table-variant=warning
     hover
     :fields="fields"
     :items="animals"
@@ -22,8 +27,8 @@
     </template>
 
     <template v-slot:cell(actions)="row">
-      <router-link :to="{ name: 'AnimalTab', params: { id:row.item.id } }">Отвори</router-link>
-      <b-button variant="danger" v-on:click="deleteAnimal(row.item.id)">Изтрий</b-button>
+      <b-button @click="$router.push({name: 'AnimalTab', params: { id:row.item.id }})" variant="outline-success">Edit</b-button> |
+      <b-button variant="danger" v-on:click="deleteAnimal(row.item.id)">Delete</b-button>
     </template>
   </b-table>
 </div>
@@ -111,5 +116,7 @@ export default {
 </script>
 
 <style scoped>
-
+.animal{
+  height: 100%;
+}
 </style>

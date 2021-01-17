@@ -7,7 +7,7 @@
         <div class="col-12 text-center">
           <div class="section-title mb-4 pb-2">
             <h4 class="title mb-4">Our Business Minds</h4>
-            <p class="text-muted para-desc mx-auto mb-0">Build responsive, mobile-first projects on the web with the world's most popular front-end component library.</p>
+            <p class="text-muted para-desc mx-auto mb-0">Building responsive, world-known projects on the web.</p>
           </div>
         </div><!--end col-->
       </div><!--end row-->

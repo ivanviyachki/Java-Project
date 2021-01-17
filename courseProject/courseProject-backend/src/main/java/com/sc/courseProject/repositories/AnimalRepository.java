@@ -1,6 +1,8 @@
 package com.sc.courseProject.repositories;
 
 import com.sc.courseProject.entities.Animal;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,4 +20,9 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
 
     @Query("SELECT a FROM Animal a WHERE a.type = :type")
     Optional<Animal> findAnimalByType(String type);
+
+    @Query("SELECT a FROM Animal a "+
+            "WHERE lower(a.name) "+
+            "LIKE :#{#name==null || #name.isEmpty()? '%' : '%'+#name+'%'} ")
+    Page<Animal> findPageAnimals(Pageable pageable, String name);
 }

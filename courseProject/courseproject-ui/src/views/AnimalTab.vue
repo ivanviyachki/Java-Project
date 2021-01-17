@@ -1,5 +1,6 @@
 <template>
 <div>
+  <h3>{{message}}</h3>
   <label>Name</label><br>
   <input type="text" v-model="animal.name"><br>
   <label>Type</label><br>

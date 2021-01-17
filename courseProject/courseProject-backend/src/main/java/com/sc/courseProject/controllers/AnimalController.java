@@ -4,12 +4,13 @@ import com.sc.courseProject.entities.Animal;
 import com.sc.courseProject.repositories.AnimalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,20 +109,28 @@ public class AnimalController {
         return result.isPresent()? ResponseEntity.ok(result.get()) : ResponseEntity.ok().body("No animal of this type");
     }
 
-//    @GetMapping("/search/page")
-//    public void paginateAnimal(@RequestParam(required = false) String name,
-//                               @RequestParam(required = false) String type,
-//                               @RequestParam(required = false) Integer serial_n){
-//
-//
-//
-//      Pageable pageable = (Pageable) PageRequest.of( currentPage - 1, perPage);
-//      Page<Animal> animals = animalRepository.findPageAnimals(pageable,
-//                name.toLowerCase(),
-//                type.toLowerCase(),
-//                serial_n );
-//
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("animals", animals.getContent());
-//    }
+    @GetMapping("search/page")
+    public ResponseEntity<?> paginateAnimal(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+                                            @RequestParam(value = "perPage", defaultValue = "5") int perPage,
+                                            @RequestParam(required = false) String name){
+
+        System.out.println(currentPage);
+        System.out.println(perPage);
+        System.out.println(name);
+
+      Pageable pageable = PageRequest.of( currentPage - 1, perPage);
+      Page<Animal> animals = animalRepository.findPageAnimals(pageable, name.toLowerCase());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("animals", animals.getContent());
+
+        System.out.println(animals.getContent());
+
+        response.put("currentPage", animals.getNumber()+1);
+        response.put("totalItems", animals.getTotalElements());
+        response.put("totalPages", animals.getTotalPages());
+        System.out.println(">>>>>>>> " + response);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

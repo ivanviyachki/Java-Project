@@ -19,20 +19,18 @@ class AnimalService {
          }
       })
   }
-  //
-  // getAllAnimalsPage (filters, currentPage, perPage) {
-  //   return axios.get(API_URL + '/search/page',
-  //     {
-  //       params:
-  //         {
-  //           name: filters.name,
-  //           type: filters.type,
-  //           serial_n: filters.serial_n,
-  //           currentPage: currentPage,
-  //           perPage: perPage
-  //         }
-  //     })
-  // }
+
+  getAnimalsPage (filters, currentPage, perPage) {
+    return axios.get(API_URL + '/search/page',
+      {
+        params:
+          {
+            name: filters.name,
+            currentPage: currentPage,
+            perPage: perPage
+          }
+      })
+  }
 
   getAnimalById (id) {
     return axios.get(API_URL + 'search/id',

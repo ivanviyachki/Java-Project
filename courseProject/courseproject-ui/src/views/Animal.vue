@@ -14,11 +14,13 @@
     hover
     :fields="fields"
     :items="animals"
+    :current-page="currentPage"
+    :per-page="0"
   >
 
     <template slot="top-row" slot-scope="{ fields }">
       <td v-for="(field, index) in fields" :key="field.id">
-        <div v-if="index === fields.length - 2 || index === fields.length - 1 ">
+        <div v-if="index === fields.length - 4 || index === fields.length - 3 || index === fields.length - 2 || index === fields.length - 1">
         </div>
         <div v-else>
           <input v-model="filters[field.key]">
@@ -31,6 +33,14 @@
       <b-button variant="danger" v-on:click="deleteAnimal(row.item.id)">Delete</b-button>
     </template>
   </b-table>
+
+  <b-pagination
+  @input="searchAnimals"
+  v-model="currentPage"
+  :total-rows="rows"
+  :per-page="perPage"
+  aria-controls="animalTable">
+  </b-pagination>
 </div>
 </template>
 
@@ -52,11 +62,11 @@ export default {
         serial_n: ''
       }],
       fields: [
-        { key: 'name', label: 'Име' },
-        { key: 'type', label: 'Вид животно' },
-        { key: 'serial_n', label: 'Номер на животното' },
-        { key: 'zoo.name', label: 'Зоопарк' },
-        { key: 'actions', label: 'Действия' }
+        { key: 'name', label: 'Name' },
+        { key: 'type', label: 'Animal Type' },
+        { key: 'serial_n', label: 'Serial Number' },
+        { key: 'zoo.name', label: 'Zoo' },
+        { key: 'actions', label: 'Actions' }
       ],
       filters: {
         name: '',
@@ -66,12 +76,12 @@ export default {
     }
   },
   mounted () {
-    this.getAllAnimals()
+    this.searchAnimals()
   },
   methods: {
 
     getAllAnimals () {
-      AnimalService.getAllAnimals().then(
+      AnimalService.getAnimalsPage().then(
         response => {
           console.log(response)
           this.animals = response.data
@@ -84,11 +94,11 @@ export default {
       )
     },
     searchAnimals () {
-      AnimalService.SearchAnimal(this.filters).then(
+      AnimalService.getAnimalsPage(this.filters, this.currentPage, this.perPage).then(
         response => {
-          // console.log(response)
-          this.animals = response.data
-          // this.rows = response.data.totalItems
+          // console.log('filters: ' + this.filters.name + 'currPage: ' + this.currentPage)
+          this.animals = response.data.animals
+          this.rows = response.data.totalItems
         },
         error => {
           this.content =

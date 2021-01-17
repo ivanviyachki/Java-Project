@@ -112,14 +112,16 @@ public class AnimalController {
     @GetMapping("search/page")
     public ResponseEntity<?> paginateAnimal(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
                                             @RequestParam(value = "perPage", defaultValue = "5") int perPage,
-                                            @RequestParam(required = false) String name){
+                                            @RequestParam(required = false) String name,
+                                            @RequestParam(required = false) String type,
+                                            @RequestParam(required = false) String serial_n){
 
         System.out.println(currentPage);
         System.out.println(perPage);
         System.out.println(name);
 
       Pageable pageable = PageRequest.of( currentPage - 1, perPage);
-      Page<Animal> animals = animalRepository.findPageAnimals(pageable, name.toLowerCase());
+      Page<Animal> animals = animalRepository.findPageAnimals(pageable, name.toLowerCase(), type.toLowerCase());
 
         Map<String, Object> response = new HashMap<>();
         response.put("animals", animals.getContent());

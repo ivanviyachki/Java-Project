@@ -21,7 +21,7 @@ export default {
     return {
       message: '',
       animal: {
-        Id: '',
+        id: '',
         name: '',
         type: '',
         serial_n: ''
@@ -46,7 +46,6 @@ export default {
       this.animal = response.data
     },
     saveAnimal () {
-      console.log('SaveAnimal Method >>>>>>>' + this.animal.Id + this.animal.name + this.animal.serial_n)
       AnimalService.saveAnimal(this.animal).then(
         response => {
           console.log(response)

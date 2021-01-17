@@ -23,6 +23,8 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
 
     @Query("SELECT a FROM Animal a "+
             "WHERE lower(a.name) "+
-            "LIKE :#{#name==null || #name.isEmpty()? '%' : '%'+#name+'%'} ")
-    Page<Animal> findPageAnimals(Pageable pageable, String name);
+            "LIKE :#{#name==null || #name.isEmpty()? '%' : '%'+#name+'%'} " +
+            "AND lower(a.type) "+
+            "LIKE :#{#type==null || #type.isEmpty()? '%' : '%'+#type+'%'} ")
+    Page<Animal> findPageAnimals(Pageable pageable, String name, String type);
 }

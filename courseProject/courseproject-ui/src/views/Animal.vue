@@ -20,7 +20,7 @@
 
     <template slot="top-row" slot-scope="{ fields }">
       <td v-for="(field, index) in fields" :key="field.id">
-        <div v-if="index === fields.length - 4 || index === fields.length - 3 || index === fields.length - 2 || index === fields.length - 1">
+        <div v-if="index === fields.length - 1 || index === fields.length - 2 || index === fields.length - 3">
         </div>
         <div v-else>
           <input v-model="filters[field.key]">

@@ -1,15 +1,14 @@
 <template>
 <div class="animal">
-  <button v-on:click="searchAnimals">Търсене</button>
+  <h3>{{message}}</h3>
+  <b-button v-on:click="searchAnimals" variant="outline-success">Търсене</b-button>
   <router-link :to="{ name: 'AnimalTab' }">Въведи</router-link>
   <b-table
     id="animalTable"
     striped
     hover
-    :items="animals"
     :fields="fields"
-    :current-page="currentPage"
-    per-page="0"
+    :items="animals"
   >
 
     <template slot="top-row" slot-scope="{ fields }">
@@ -27,14 +26,6 @@
       <b-button variant="danger" v-on:click="deleteAnimal(row.item.id)">Изтрий</b-button>
     </template>
   </b-table>
-
-  <b-pagination
-    @input="searchAnimals"
-    v-model="currentPage"
-    :total-rows="rows"
-    :per-page="perPage"
-    aria-controls="animalTable"
-    ></b-pagination>
 </div>
 </template>
 
@@ -45,17 +36,22 @@ export default {
   name: 'Animal',
   data () {
     return {
+      message: '',
       currentPage: 1,
       rows: '',
-      perPage: 1,
-      animals: '',
+      perPage: 5,
+      animals: [{
+        id: '',
+        name: '',
+        type: '',
+        serial_n: ''
+      }],
       fields: [
         { key: 'name', label: 'Име' },
         { key: 'type', label: 'Вид животно' },
         { key: 'serial_n', label: 'Номер на животното' },
         { key: 'zoo.name', label: 'Зоопарк' },
         { key: 'actions', label: 'Действия' }
-
       ],
       filters: {
         name: '',
@@ -83,11 +79,11 @@ export default {
       )
     },
     searchAnimals () {
-      AnimalService.getAllAnimalsPage(this.filters, this.currentPage, this.perPage).then(
+      AnimalService.SearchAnimal(this.filters).then(
         response => {
           // console.log(response)
           this.animals = response.data
-          this.rows = response.data.totalItems
+          // this.rows = response.data.totalItems
         },
         error => {
           this.content =

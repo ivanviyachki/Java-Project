@@ -6,6 +6,8 @@ import * as axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { BTable, BPagination, BFormCheckbox, BForm, BButton } from 'bootstrap-vue'
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 Vue.component('b-button', BButton)
 Vue.component('b-form', BForm)

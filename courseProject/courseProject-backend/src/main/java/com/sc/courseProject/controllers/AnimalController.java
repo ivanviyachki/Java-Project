@@ -3,6 +3,7 @@ package com.sc.courseProject.controllers;
 import com.sc.courseProject.entities.Animal;
 import com.sc.courseProject.repositories.AnimalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,6 @@ public class AnimalController {
                                         @RequestParam(required = false) String name,
                                         @RequestParam(required = false) String type,
                                         @RequestParam(required = false) Integer serial_n){
-
         boolean isNew = id == null;
 
     Animal animal = new Animal(id, name, type, serial_n);
@@ -51,7 +51,8 @@ public class AnimalController {
     }
 
     @PostMapping("/save/animal") //also for editing if we add id key that exists
-    public ResponseEntity<?> saveAnimal(@RequestParam Animal form ){
+    public ResponseEntity<?> saveAnimal(@RequestBody Animal form ){
+        System.out.println(form.getId() + form.getName() + form.getType());
 
         boolean isNew = form.getId() == null;
 
@@ -75,6 +76,11 @@ public class AnimalController {
         return ResponseEntity.ok("Successfully deleted");
     }
 
+    @GetMapping("/search/id")
+    public Animal getAnimalById(@RequestParam(required = false) Long id){
+        return animalRepository.findAnimalById(id);
+    }
+
     @GetMapping("/searchByName")
     public ResponseEntity<?> getAnimalByName(@RequestParam(required = false) String name){
         if(name == null || name.isBlank()){
@@ -89,7 +95,7 @@ public class AnimalController {
         if(serial_n == null){
             return ResponseEntity.ok().body("No id entered");
         }
-        Optional<Animal> result = animalRepository.findAnimalById(serial_n);
+        Optional<Animal> result = animalRepository.findAnimalBySerialN(serial_n);
         return result.isPresent()? ResponseEntity.ok(result.get()) : ResponseEntity.ok().body("No animal with that serial number");
     }
 
@@ -102,22 +108,20 @@ public class AnimalController {
         return result.isPresent()? ResponseEntity.ok(result.get()) : ResponseEntity.ok().body("No animal of this type");
     }
 
-    @GetMapping("/search/page")
-    public void paginateAnimal(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-                               @RequestParam(value = "perPage", defaultValue = "5") int perPage,
-                               @RequestParam(required = false) String name,
-                               @RequestParam(required = false) String type,
-                               @RequestParam(required = false) Integer serial_n){
-
-
-
-      // Pageable pageable = (Pageable) PageRequest.of( currentPage - 1, perPage);
-        //Page<Animal> animals = animalRepository.findPageAnimals(pageable,
-        //        name.toLowerCase(),
-        //        type.toLowerCase(),
-        //        serial_n );
-
-       // Map<String, Object> response = new HashMap<>();
-       // response.put("animals", animals.getContent());
-    }
+//    @GetMapping("/search/page")
+//    public void paginateAnimal(@RequestParam(required = false) String name,
+//                               @RequestParam(required = false) String type,
+//                               @RequestParam(required = false) Integer serial_n){
+//
+//
+//
+//      Pageable pageable = (Pageable) PageRequest.of( currentPage - 1, perPage);
+//      Page<Animal> animals = animalRepository.findPageAnimals(pageable,
+//                name.toLowerCase(),
+//                type.toLowerCase(),
+//                serial_n );
+//
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("animals", animals.getContent());
+//    }
 }

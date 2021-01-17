@@ -1,4 +1,4 @@
-<template>
+<template style="background-color: #42b983">
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
@@ -10,6 +10,7 @@
 </template>
 
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -20,6 +21,7 @@
 
 #nav {
   padding: 30px;
+
 }
 
 #nav a {

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Animal from '../views/Animal'
+import AnimalTab from '../views/AnimalTab'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/animal',
     name: 'Animal',
     component: Animal
+  },
+  {
+    path: '/AnimalTab',
+    name: 'AnimalTab',
+    component: AnimalTab
   },
   {
     path: '/about',
